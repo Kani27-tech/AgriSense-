@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriSense Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOghMFuL06EaNbQmnAvB5JnJ_pyo3ZPZRbOg&s');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed;
+      color: #333;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 240px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(44, 62, 80, 0.95);
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 24px;
+      border-bottom: 2px solid #16a085;
+      padding-bottom: 10px;
+    }
+
+    .sidebar p {
+      margin: 15px 0;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-details, .stock-price {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .contact-details h3, .stock-price h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+      color: #1abc9c;
+    }
+
+    .main {
+      margin-left: 240px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .main h1 {
+      margin-top: 0;
+      font-size: 32px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #2c3e50;
+    }
+
+    .card p {
+      margin: 5px 0 0;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>AgriSense</h2>
+    <p><a href="dashboard.html"> Dashboard</a></p>
+    <p><a href="weekly-weather.html">🌦 Weather</a></p>
+
+    <p><a href="irrigation.html">💧 Irrigation</a></p>
+    <p><a href="disease-detection.html">🦠 Disease Detection</a></p>
+    <p><a href="recommendation-by-location.html">🌱 Crop Recommendation</a></p>
+    <p><a href="agriculture-schemes.html">📜 Agriculture Schemes</a></p>
+
+    <div class="stock-price">
+      <h3>📈 Agri Stocks</h3>
+      <p id="stock-DE">DE: Loading...</p>
+      <p id="stock-CTVA">CTVA: Loading...</p>
+      <p id="stock-NTR">NTR: Loading...</p>
+    </div>
+
+    <div class="contact-details">
+      <h3>📞 Contact</h3>
+      <p>Email: <a href="gmail:agrisense@gmail.com">agrisense@gmail.com</a></p>
+      <p>Phone: 9500826684</p>
+    </div>
+  </div>
+
+  <div class="main">
+    <h1>Dashboard Overview</h1>
+
+    <div class="card">
+      <h2>🌦 Weather Forecast</h2>
+      <p id="weather">Loading weather...</p>
+    </div>
+
+    <div class="card">
+      <h2>🌱 Crop Recommendation</h2>
+      <p>A crop recommendation system typically provides information and guidance on the most suitable crops to grow based on various environmental, soil, and economic factors.</p>
+    </div>
+
+    <div class="card">
+      <h2>💧 Irrigation Advisory</h2>
+      <p>An irrigation advisory system provides recommendations to farmers or land managers on how, when, and how much to irrigate their crops.</p>
+    </div>
+
+    <div class="card">
+      <h2>🦠 Disease Detection</h2>
+      <p>A disease detection system typically holds structured information and tools focused on identifying the presence of diseases in crops early and accurately.</p>
+    </div>
+
+    <div class="card">
+      <h2>📜 Agriculture Scheme</h2>
+      <p>An agriculture scheme is a government or organizational program designed to support farmers by providing financial aid, resources, and training to improve agricultural productivity and income.</p>
+    </div>
+  </div>
+
+  <script>
+    const weatherApiKey = 'e3c1a92c7da4e0dcb2418bba8fa073b9';
+
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`)
+          .then(response => response.json())
+          .then(data => {
+            const weatherText = `Location: ${data.name}<br>
+                                 Temperature: ${data.main.temp}°C<br>
+                                 Condition: ${data.weather[0].description}`;
+            document.getElementById('weather').innerHTML = weatherText;
+          })
+          .catch(error => {
+            document.getElementById('weather').innerText = 'Error fetching weather data.';
+            console.error(error);
+          });
+      },
+      function (error) {
+        document.getElementById('weather').innerText = 'Location access denied or not available.';
+        console.error(error);
+      }
+    );
+
+    // Stock price fetcher for agriculture companies
+    const stockApiKey = 'WNF4NMBVI8C498TP'; // Replace with your API key
+    const agriStocks = ['DE', 'CTVA', 'NTR'];
+
+    agriStocks.forEach(symbol => {
+      fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${stockApiKey}`)
+        .then(response => response.json())
+        .then(data => {
+          const quote = data['Global Quote'];
+          if (quote) {
+            const price = parseFloat(quote['05. price']).toFixed(2);
+            const change = quote['09. change'];
+            const percent = quote['10. change percent'];
+            document.getElementById(`stock-${symbol}`).innerHTML =
+              `${symbol}: $${price} <br>Change: ${change} (${percent})`;
+          } else {
+            document.getElementById(`stock-${symbol}`).innerText = `${symbol}: No data`;
+          }
+        })
+        .catch(err => {
+          document.getElementById(`stock-${symbol}`).innerText = `${symbol}: Error loading`;
+          console.error(err);
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Irrigation Advice</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        padding: 20px;
+      }
+
+      /* Background image with opacity using pseudo-element */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("irra.jpg"); /* Replace with the correct path */
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8; /* Adjust for medium opacity */
+        z-index: -1; /* Send behind content */
+      }
+
+      .container {
+        max-width: 500px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+      }
+      label {
+        display: block;
+        margin: 15px 0 5px;
+        font-weight: bold;
+      }
+      select,
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      button {
+        margin-top: 20px;
+        padding: 12px;
+        width: 100%;
+        background-color: #16a085;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #13876a;
+      }
+      .result {
+        margin-top: 25px;
+        padding: 15px;
+        background: #e8f5f1;
+        border-radius: 5px;
+        border: 1px solid #16a085;
+        color: #1a5a43;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back-link" href="dashboard.html">← Back to Dashboard</a>
+    <div class="container">
+      <h1>Irrigation Advisor</h1>
+
+      <form id="irrigationForm">
+        <label for="crop">Crop Type:</label>
+        <select id="crop" required>
+          <option value="">-- Select Crop --</option>
+          <option value="rice">Rice</option>
+          <option value="wheat">Wheat</option>
+          <option value="maize">Maize</option>
+          <option value="barley">Barley</option>
+          <option value="millet">Millet</option>
+          <option value="sorghum">Sorghum</option>
+          <option value="chickpea">Chickpea</option>
+          <option value="lentil">Lentil</option>
+          <option value="pigeonpea">Pigeon Pea</option>
+          <option value="mungbean">Mung Bean</option>
+          <option value="blackgram">Black Gram</option>
+          <option value="groundnut">Groundnut</option>
+          <option value="mustard">Mustard</option>
+          <option value="sesame">Sesame</option>
+          <option value="sunflower">Sunflower</option>
+          <option value="soybean">Soybean</option>
+          <option value="cotton">Cotton</option>
+          <option value="potato">Potato</option>
+          <option value="tomato">Tomato</option>
+          <option value="onion">Onion</option>
+          <option value="brinjal">Brinjal</option>
+          <option value="okra">Okra</option>
+          <option value="banana">Banana</option>
+          <option value="sugarcane">Sugarcane</option>
+          <option value="tea">Tea</option>
+          <option value="coffee">Coffee</option>
+        </select>
+
+        <label for="soil">Soil Type:</label>
+        <select id="soil" required>
+          <option value="">-- Select Soil Type --</option>
+          <option value="sandy">Sandy</option>
+          <option value="loamy">Loamy</option>
+          <option value="clay">Clay</option>
+          <option value="silty">Silty</option>
+          <option value="red">Red Soil</option>
+          <option value="black">Black Soil</option>
+          <option value="laterite">Laterite Soil</option>
+          <option value="alluvial">Alluvial Soil</option>
+          <option value="saline">Saline/Alkaline Soil</option>
+        </select>
+
+        <label for="stage">Plant Growth Stage:</label>
+        <select id="stage" required>
+          <option value="">-- Select Growth Stage --</option>
+          <option value="seedling">Seedling</option>
+          <option value="vegetative">Vegetative</option>
+          <option value="flowering">Flowering</option>
+          <option value="maturity">Maturity</option>
+        </select>
+
+        <button type="submit">Get Irrigation Advice</button>
+      </form>
+
+      <div id="result" class="result" style="display: none"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("irrigationForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const crop = document.getElementById("crop").value;
+          const soil = document.getElementById("soil").value;
+          const stage = document.getElementById("stage").value;
+
+          let irrigationType = "";
+          let schedule = "";
+
+          // Determine irrigation type based on soil and crop
+          if (soil === "sandy") {
+            if (["cotton", "groundnut", "banana"].includes(crop)) {
+              irrigationType =
+                "Drip irrigation is ideal for sandy soil and this crop to prevent water loss.";
+            } else {
+              irrigationType =
+                "Frequent, light irrigation using drip or sprinkler systems is best for sandy soil.";
+            }
+          } else if (soil === "loamy") {
+            if (["rice", "wheat", "maize"].includes(crop)) {
+              irrigationType =
+                "Sprinkler irrigation suits loamy soil and cereal crops well.";
+            } else {
+              irrigationType =
+                "Drip or sprinkler irrigation is generally effective for loamy soil.";
+            }
+          } else if (soil === "clay") {
+            if (["rice", "sugarcane"].includes(crop)) {
+              irrigationType =
+                "Flood irrigation works well for water-loving crops like rice in clay soil.";
+            } else {
+              irrigationType =
+                "Furrow irrigation is preferable to manage drainage in clay soil.";
+            }
+          } else if (soil === "silty") {
+            irrigationType =
+              "Sprinkler irrigation helps avoid crust formation on silty soils.";
+          } else if (soil === "red") {
+            if (["millet", "sorghum"].includes(crop)) {
+              irrigationType =
+                "Basin or furrow irrigation suits dryland crops in red soil.";
+            } else {
+              irrigationType =
+                "Drip irrigation is efficient due to moderate permeability of red soils.";
+            }
+          } else if (soil === "black") {
+            if (["cotton", "soybean"].includes(crop)) {
+              irrigationType =
+                "Furrow irrigation is suitable for deep-rooted crops in black soil.";
+            } else {
+              irrigationType =
+                "Surface irrigation with good drainage works for black soil.";
+            }
+          } else if (soil === "laterite") {
+            irrigationType =
+              "Drip irrigation is recommended due to poor water retention of laterite soil.";
+          } else if (soil === "alluvial") {
+            if (["wheat", "mustard"].includes(crop)) {
+              irrigationType =
+                "Sprinkler irrigation works well for alluvial soil and these crops.";
+            } else {
+              irrigationType =
+                "Use surface or drip irrigation depending on crop requirements.";
+            }
+          } else if (soil === "saline") {
+            irrigationType =
+              "Drip irrigation is preferred to prevent salt accumulation on surface.";
+          }
+
+          // Schedule based on plant growth stage
+          if (stage === "seedling") {
+            schedule =
+              "Irrigate lightly every 2 days to keep soil moist for germination.";
+          } else if (stage === "vegetative") {
+            schedule =
+              "Irrigate every 3 days with moderate water to support active growth.";
+          } else if (stage === "flowering") {
+            schedule =
+              "Irrigate every 4 days; maintain consistent moisture without waterlogging.";
+          } else if (stage === "maturity") {
+            schedule =
+              "Reduce watering, irrigate once a week or as needed to avoid stress.";
+
+            // Special case: crops like onion or potato at maturity
+            if (["onion", "potato"].includes(crop)) {
+              schedule += " Avoid over-irrigation to prevent rotting.";
+            }
+          }
+
+          // Display result
+          const resultDiv = document.getElementById("result");
+          resultDiv.style.display = "block";
+          resultDiv.innerHTML = `<strong>Irrigation Type:</strong> ${irrigationType}<br><br>
+                           <strong>Weekly Schedule:</strong> ${schedule}`;
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Disease Detection - AgriSense</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #333;
+        padding: 20px;
+        position: relative;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      /* Background image with opacity using pseudo-element */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("diss.jpg"); /* Replace with the correct path */
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8; /* Adjust for medium opacity */
+        z-index: -1; /* Send behind content */
+      }
+
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #2c3e50;
+      }
+
+      input[type="file"] {
+        margin: 20px 0;
+      }
+
+      button {
+        background-color: #16a085;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #13856a;
+      }
+
+      #result {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e7f3fe;
+        border-left: 5px solid #2196f3;
+        border-radius: 5px;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 15px;
+        text-decoration: none;
+        color: #2980b9;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back-link" href="dashboard.html">← Back to Dashboard</a>
+
+    <div class="container">
+      <h1>🦠 Disease Detection</h1>
+      <p>Upload an image of the affected plant or leaf below:</p>
+      <input type="file" id="imageUpload" accept="image/*" />
+      <br />
+      <button onclick="detectDisease()">Detect Disease</button>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function detectDisease() {
+        const fileInput = document.getElementById("imageUpload");
+        const resultDiv = document.getElementById("result");
+
+        if (!fileInput.files.length) {
+          resultDiv.innerHTML = "<b>Please upload an image first.</b>";
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const fileName = file.name.toLowerCase();
+
+        let diseaseName = "";
+        let advice = "";
+
+        if (fileName.includes("blight")) {
+          diseaseName = "Late Blight";
+          advice =
+            "Remove infected parts. Use fungicides like Mancozeb. Avoid overhead irrigation.";
+        } else if (fileName.includes("rust")) {
+          diseaseName = "Rust Disease";
+          advice =
+            "Apply fungicides (e.g., chlorothalonil). Ensure good air circulation and crop rotation.";
+        } else if (fileName.includes("mildew")) {
+          diseaseName = "Powdery Mildew";
+          advice =
+            "Apply sulfur or potassium bicarbonate sprays. Avoid excess nitrogen.";
+        } else if (fileName.includes("spot")) {
+          diseaseName = "Leaf Spot";
+          advice = "Remove affected leaves. Use copper-based fungicides.";
+        } else if (fileName.includes("curl")) {
+          diseaseName = "Leaf Curl";
+          advice =
+            "Use fungicides during the dormant season. Destroy fallen infected leaves.";
+        } else if (fileName.includes("wilt")) {
+          diseaseName = "Fusarium Wilt";
+          advice =
+            "Remove and destroy infected plants. Use resistant varieties. Improve soil drainage.";
+        } else if (fileName.includes("canker")) {
+          diseaseName = "Citrus Canker";
+          advice =
+            "Prune infected branches. Apply copper-based bactericides. Avoid working when plants are wet.";
+        } else if (fileName.includes("mosaic")) {
+          diseaseName = "Tobacco Mosaic Virus";
+          advice =
+            "Remove infected plants. Avoid handling plants after tobacco use. Use virus-free seeds.";
+        } else if (fileName.includes("bacterial")) {
+          diseaseName = "Bacterial Leaf Blight";
+          advice =
+            "Use certified disease-free seeds. Apply copper fungicides. Improve field drainage.";
+        } else {
+          diseaseName = "Unknown Disease";
+          advice =
+            "Could not detect disease. Try uploading a clearer image or consult an agronomist.";
+        }
+
+        resultDiv.innerHTML = `
+        <h3>Disease Detected: ${diseaseName}</h3>
+        <p><strong>Advice:</strong> ${advice}</p>
+      `;
+      }
+    </script>
+  </body>
+</html>

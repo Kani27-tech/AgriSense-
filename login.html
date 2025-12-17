@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AgriSense Login</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f6fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        animation: fadeInBody 1s ease forwards;
+        flex-direction: column;
+      }
+
+      @keyframes fadeInBody {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Background image with opacity using pseudo-element */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("log.jpg"); /* Replace with the correct path */
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8; /* Adjust for medium opacity */
+        z-index: -1; /* Send behind content */
+      }
+
+      .login-box {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        animation: slideIn 0.6s ease forwards;
+        margin-top: 20px;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-box h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+        color: #333;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+      }
+
+      .input-group input:focus {
+        border-color: #1e90ff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+      }
+
+      .login-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #1e90ff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background-color: #0d6efd;
+      }
+
+      /* Style for language selector */
+      #language-select {
+        width: 320px;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="language-select" aria-label="Select Language">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी (Hindi)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+      <option value="brx">बड़ो (Bodo)</option>
+      <option value="doi">डोगरी (Dogri)</option>
+      <option value="gu">ગુજરાતી (Gujarati)</option>
+      <option value="kn">ಕನ್ನಡ (Kannada)</option>
+      <option value="ks">कश्मीरी (Kashmiri)</option>
+      <option value="kok">कोंकणी (Konkani)</option>
+      <option value="mai">मैथिली (Maithili)</option>
+      <option value="ml">മലയാളം (Malayalam)</option>
+      <option value="mni">মণিপুরী (Manipuri)</option>
+      <option value="mr">मराठी (Marathi)</option>
+      <option value="ne">नेपाली (Nepali)</option>
+      <option value="or">ଓଡ଼ିଆ (Odia)</option>
+      <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+      <option value="sa">संस्कृतम् (Sanskrit)</option>
+      <option value="sat">संताली (Santali)</option>
+      <option value="sd">सिंधी (Sindhi)</option>
+      <option value="ta">தமிழ் (Tamil)</option>
+      <option value="te">తెలుగు (Telugu)</option>
+      <option value="ur">اردو (Urdu)</option>
+    </select>
+
+    <div class="login-box">
+      <h2 id="title">Login to AgriSense</h2>
+      <div class="input-group">
+        <label for="username" id="username-label">Username</label>
+        <input type="text" id="username" placeholder="Enter your username" />
+      </div>
+      <div class="input-group">
+        <label for="password" id="password-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+        />
+      </div>
+      <button class="login-btn" id="login-btn">Login</button>
+    </div>
+
+    <script>
+      const translations = {
+        en: {
+          title: "Login to AgriSense",
+          usernameLabel: "Username",
+          usernamePlaceholder: "Enter your username",
+          passwordLabel: "Password",
+          passwordPlaceholder: "Enter your password",
+          loginButton: "Login",
+          successMessage: "Login successful!",
+          errorMessage: "Login failed. Please check your credentials.",
+        },
+        hi: {
+          title: "एग्रीसेंस में लॉगिन करें",
+          usernameLabel: "उपयोगकर्ता नाम",
+          usernamePlaceholder: "अपना उपयोगकर्ता नाम दर्ज करें",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "अपना पासवर्ड दर्ज करें",
+          loginButton: "लॉगिन",
+          successMessage: "सफलतापूर्वक लॉगिन हुआ!",
+          errorMessage: "लॉगिन विफल। कृपया अपने विवरण जांचें।",
+        },
+        bn: {
+          title: "অ্যাগ্রিসেন্সে লগইন করুন",
+          usernameLabel: "ব্যবহারকারীর নাম",
+          usernamePlaceholder: "আপনার ব্যবহারকারীর নাম লিখুন",
+          passwordLabel: "পাসওয়ার্ড",
+          passwordPlaceholder: "আপনার পাসওয়ার্ড লিখুন",
+          loginButton: "লগইন",
+          successMessage: "সফলভাবে লগইন হয়েছে!",
+          errorMessage:
+            "লগইন ব্যর্থ হয়েছে। অনুগ্রহ করে আপনার তথ্য পরীক্ষা করুন।",
+        },
+        brx: {
+          title: "AgriSense बिसर गिदाय",
+          usernameLabel: "उपयोगकर्ता नांव",
+          usernamePlaceholder: "अपुन उपयोगकर्ता नांव ठिकाय",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "अपुन पासवर्ड ठिकाय",
+          loginButton: "बिसर गिदाय",
+          successMessage: "बिसर गिदाय सफल!",
+          errorMessage: "बिसर गिदाय नाकाम। जानकारी ठिकाय ठाका!",
+        },
+        doi: {
+          title: "AgriSense विच लॉगिन करो",
+          usernameLabel: "यूज़र नाम",
+          usernamePlaceholder: "अपना यूज़र नाम लिखो",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "अपना पासवर्ड लिखो",
+          loginButton: "लॉगिन",
+          successMessage: "सफलतापूर्वक लॉगिन हो गया!",
+          errorMessage: "लॉगिन असफल। कृपया जानकारी जांचो।",
+        },
+        gu: {
+          title: "એગ્રીસેન્સમાં લૉગિન કરો",
+          usernameLabel: "વપરાશકર્તા નામ",
+          usernamePlaceholder: "તમારું વપરાશકર્તા નામ દાખલ કરો",
+          passwordLabel: "પાસવર્ડ",
+          passwordPlaceholder: "તમારું પાસવર્ડ દાખલ કરો",
+          loginButton: "લૉગિન",
+          successMessage: "સફળતાપૂર્વક લૉગિન થયું!",
+          errorMessage: "લૉગિન નિષ્ફળ થયું. કૃપા કરી વિગતો તપાસો.",
+        },
+        kn: {
+          title: "AgriSense ಗೆ ಲಾಗಿನ್ ಆಗಿ",
+          usernameLabel: "ಬಳಕೆದಾರ ಹೆಸರು",
+          usernamePlaceholder: "ನಿಮ್ಮ ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ",
+          passwordLabel: "ಪಾಸ್ವರ್ಡ್",
+          passwordPlaceholder: "ನಿಮ್ಮ ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ",
+          loginButton: "ಲಾಗಿನ್",
+          successMessage: "ಲಾಗಿನ್ ಯಶಸ್ವಿ!",
+          errorMessage: "ಲಾಗಿನ್ ವಿಫಲ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+        },
+        ks: {
+          title: "AgriSense وچ لاگ ان کراں",
+          usernameLabel: "استعمال کنندہ ناں",
+          usernamePlaceholder: "اپنا استعمال کنندہ ناں داخل کرو",
+          passwordLabel: "پاس ورڈ",
+          passwordPlaceholder: "اپنا پاس ورڈ داخل کرو",
+          loginButton: "لاگ ان",
+          successMessage: "کامیابی نال لاگ ان ہویا!",
+          errorMessage: "لاگ ان ناکام۔ براہ کرم اپنی معلومات چیک کرو۔",
+        },
+        kok: {
+          title: "AgriSense-येर लॉगिन करा",
+          usernameLabel: "वापरकर्ता नांव",
+          usernamePlaceholder: "तुमचें वापरकर्ता नांव टाका",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "तुमचो पासवर्ड टाका",
+          loginButton: "लॉगिन",
+          successMessage: "लॉगिन यशस्वी जाल्लें!",
+          errorMessage: "लॉगिन फेल जाल्ला. कृपया तुमचें माहिती तपासा.",
+        },
+        mai: {
+          title: "अग्रीसेंस मे लॉगिन करू",
+          usernameLabel: "यूजर नाम",
+          usernamePlaceholder: "अपना यूजर नाम दर्ज करू",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "अपना पासवर्ड दर्ज करू",
+          loginButton: "लॉगिन",
+          successMessage: "सफलतापूर्वक लॉगिन भइल!",
+          errorMessage: "लॉगिन असफल। कृपया विवरण जांचू।",
+        },
+        ml: {
+          title: "AgriSense-ൽ ലോഗിൻ ചെയ്യുക",
+          usernameLabel: "ഉപയോക്തൃനാമം",
+          usernamePlaceholder: "നിങ്ങളുടെ ഉപയോക്തൃനാമം നൽകുക",
+          passwordLabel: "പാസ്‌വേഡ്",
+          passwordPlaceholder: "നിങ്ങളുടെ പാസ്‌വേഡ് നൽകുക",
+          loginButton: "ലോഗിൻ",
+          successMessage: "ലോഗിൻ വിജയകരമായി പൂർത്തിയായി!",
+          errorMessage:
+            "ലോഗിൻ പരാജയപ്പെട്ടു. ദയവായി നിങ്ങളുടെ വിവരങ്ങൾ പരിശോധിക്കുക.",
+        },
+        mni: {
+          title: "AgriSense-gi login tourabani",
+          usernameLabel: "username",
+          usernamePlaceholder: "nangbu username tourabak",
+          passwordLabel: "password",
+          passwordPlaceholder: "nangbu password tourabak",
+          loginButton: "Login tourak-u",
+          successMessage: "Login tourabani!",
+          errorMessage: "Login phal-jari. nanggi macha check tourabak.",
+        },
+        mr: {
+          title: "AgriSense मध्ये लॉगिन करा",
+          usernameLabel: "वापरकर्ता नाव",
+          usernamePlaceholder: "तुमचे वापरकर्तानाव टाका",
+          passwordLabel: "संकेतशब्द",
+          passwordPlaceholder: "तुमचा संकेतशब्द टाका",
+          loginButton: "लॉगिन",
+          successMessage: "लॉगिन यशस्वी!",
+          errorMessage: "लॉगिन अयशस्वी. कृपया माहिती तपासा.",
+        },
+        ne: {
+          title: "AgriSense मा लग इन गर्नुहोस्",
+          usernameLabel: "प्रयोगकर्ता नाम",
+          usernamePlaceholder: "आफ्नो प्रयोगकर्ता नाम प्रविष्ट गर्नुहोस्",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "आफ्नो पासवर्ड प्रविष्ट गर्नुहोस्",
+          loginButton: "लग इन",
+          successMessage: "सफलतापूर्वक लग इन भयो!",
+          errorMessage: "लग इन असफल भयो। कृपया विवरण जाँच गर्नुहोस्।",
+        },
+        or: {
+          title: "AgriSense ରେ ଲଗଇନ୍ କରନ୍ତୁ",
+          usernameLabel: "ଉପଯୋଗକର୍ତ୍ତା ନାମ",
+          usernamePlaceholder: "ଆପଣଙ୍କର ଉପଯୋଗକର୍ତ୍ତା ନାମ ଲେଖନ୍ତୁ",
+          passwordLabel: "ପାସୱାର୍ଡ",
+          passwordPlaceholder: "ଆପଣଙ୍କର ପାସୱାର୍ଡ ଲେଖନ୍ତୁ",
+          loginButton: "ଲଗଇନ୍",
+          successMessage: "ସଫଳତାର ସହ ଲଗଇନ୍ ହେଲା!",
+          errorMessage: "ଲଗଇନ୍ ବିଫଳ। ଦୟାକରି ଆପଣଙ୍କର ବିବରଣୀ ଯାଞ୍ଚ କରନ୍ତୁ।",
+        },
+        pa: {
+          title: "AgriSense ਵਿੱਚ ਲੌਗਇਨ ਕਰੋ",
+          usernameLabel: "ਯੂਜ਼ਰ ਨਾਮ",
+          usernamePlaceholder: "ਆਪਣਾ ਯੂਜ਼ਰ ਨਾਮ ਦਰਜ ਕਰੋ",
+          passwordLabel: "ਪਾਸਵਰਡ",
+          passwordPlaceholder: "ਆਪਣਾ ਪਾਸਵਰਡ ਦਰਜ ਕਰੋ",
+          loginButton: "ਲੌਗਿਨ",
+          successMessage: "ਸਫਲਤਾਪੂਰਵਕ ਲੌਗਿਨ ਹੋਇਆ!",
+          errorMessage: "ਲੌਗਿਨ ਅਸਫਲ। ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀਆਂ ਜਾਣਕਾਰੀਆਂ ਚੈੱਕ ਕਰੋ।",
+        },
+        sa: {
+          title: "अग्रीसेंस प्रवेशं कुर्वीत",
+          usernameLabel: "नाम उपयोक्ता",
+          usernamePlaceholder: "तव नाम उपयोक्तुं लिखतु",
+          passwordLabel: "गुप्तशब्द",
+          passwordPlaceholder: "तव गुप्तशब्दं लिखतु",
+          loginButton: "प्रवेश",
+          successMessage: "सफलतया प्रवेशः कृतः!",
+          errorMessage: "प्रवेशः विफलः। कृपया विवरणं परीक्षताम्।",
+        },
+        sat: {
+          title: "AgriSense रे लॉगिन कर",
+          usernameLabel: "यूजर नांव",
+          usernamePlaceholder: "अपन यूजर नांव दर्ज कर",
+          passwordLabel: "पासवर्ड",
+          passwordPlaceholder: "अपन पासवर्ड दर्ज कर",
+          loginButton: "लॉगिन",
+          successMessage: "लॉगिन सफ़ल",
+          errorMessage: "लॉगिन असफल। कृपया जानकारी देखू।",
+        },
+        sd: {
+          title: "AgriSense ۾ لاگ ان ٿيو",
+          usernameLabel: "استعمال ڪندڙ جو نالو",
+          usernamePlaceholder: "پنهنجو استعمال ڪندڙ نالو داخل ڪريو",
+          passwordLabel: "پاسورڊ",
+          passwordPlaceholder: "پنهنجو پاسورڊ داخل ڪريو",
+          loginButton: "لاگ ان",
+          successMessage: "ڪاميابي سان لاگ ان ٿي ويو!",
+          errorMessage: "لاگ ان ناڪام ٿيو. مهرباني ڪري پنهنجا تفصيل چيڪ ڪريو.",
+        },
+        ta: {
+          title: "AgriSense இல் உள்நுழையவும்",
+          usernameLabel: "பயனர் பெயர்",
+          usernamePlaceholder: "உங்கள் பயனர் பெயரை உள்ளிடவும்",
+          passwordLabel: "கடவுச்சொல்",
+          passwordPlaceholder: "உங்கள் கடவுச்சொல்லை உள்ளிடவும்",
+          loginButton: "உள்நுழை",
+          successMessage: "வெற்றி பெற உள்நுழைந்துள்ளீர்கள்!",
+          errorMessage:
+            "உள்நுழைவு தோல்வியடைந்தது. உங்கள் விவரங்களை சரிபார்க்கவும்.",
+        },
+        te: {
+          title: "AgriSense లో లాగిన్ అవ్వండి",
+          usernameLabel: "వినియోగదారుని పేరు",
+          usernamePlaceholder: "మీ వినియోగదారుని పేరు నమోదు చేయండి",
+          passwordLabel: "పాస్వర్డ్",
+          passwordPlaceholder: "మీ పాస్వర్డ్ నమోదు చేయండి",
+          loginButton: "లాగిన్",
+          successMessage: "లాగిన్ విజయవంతం!",
+          errorMessage: "లాగిన్ విఫలమైంది. దయచేసి మీ వివరాలను తనిఖీ చేయండి.",
+        },
+        ur: {
+          title: "AgriSense میں لاگ ان کریں",
+          usernameLabel: "صارف نام",
+          usernamePlaceholder: "اپنا صارف نام درج کریں",
+          passwordLabel: "پاس ورڈ",
+          passwordPlaceholder: "اپنا پاس ورڈ درج کریں",
+          loginButton: "لاگ ان",
+          successMessage: "کامیابی کے ساتھ لاگ ان ہوگیا!",
+          errorMessage: "لاگ ان ناکام۔ براہ کرم اپنی تفصیلات چیک کریں۔",
+        },
+      };
+
+      const languageSelect = document.getElementById("language-select");
+      const title = document.getElementById("title");
+      const usernameLabel = document.getElementById("username-label");
+      const usernameInput = document.getElementById("username");
+      const passwordLabel = document.getElementById("password-label");
+      const passwordInput = document.getElementById("password");
+      const loginBtn = document.getElementById("login-btn");
+
+      function updateLanguage(lang) {
+        const texts = translations[lang] || translations["en"];
+        title.textContent = texts.title;
+        usernameLabel.textContent = texts.usernameLabel;
+        usernameInput.placeholder = texts.usernamePlaceholder;
+        passwordLabel.textContent = texts.passwordLabel;
+        passwordInput.placeholder = texts.passwordPlaceholder;
+        loginBtn.textContent = texts.loginButton;
+      }
+
+      languageSelect.addEventListener("change", (e) => {
+        updateLanguage(e.target.value);
+      });
+
+      // Initialize with English on page load
+      updateLanguage("en");
+
+      loginBtn.addEventListener("click", async () => {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        try {
+          const response = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+
+          const result = await response.json();
+
+          const lang = languageSelect.value;
+          const texts = translations[lang] || translations["en"];
+
+          if (response.ok) {
+            alert(texts.successMessage);
+            window.location.href = "dashboard.html"; // ✅ Redirect on success
+          } else {
+            alert(texts.errorMessage);
+          }
+        } catch (error) {
+          alert("Network error. Please try again.");
+        }
+      });
+    </script>
+  </body>
+</html>
